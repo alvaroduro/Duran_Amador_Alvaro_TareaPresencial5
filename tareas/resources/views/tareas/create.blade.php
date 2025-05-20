@@ -44,8 +44,8 @@
             <!-- Descripción (Quill) -->
             <div>
                 <p class="font-medium text-sm mb-1">Descripción</p>
-                <div id="editor">{!! old('descripcion') !!}</div>
-                <textarea class="hidden" name="descripcion" id="descripcion"></textarea>
+                <div id="editor">{!! old('observaciones') !!}</div>
+                <textarea class="hidden" name="observaciones" id="observaciones"></textarea>
             </div>
 
             <!-- Lugar -->
@@ -61,9 +61,11 @@
 
             <!-- Prioridad -->
            <flux:select label="Prioridad" name="prioridad">
-            <option value="1" {{ old('prioridad') == '1' ? 'selected' : '' }}>Alta</option>
-            <option value="2" {{ old('prioridad') == '2' ? 'selected' : '' }}>Baja</option>
-        </flux:select>
+    <option value="1" {{ old('prioridad') == '1' ? 'selected' : '' }}>Alta</option>
+    <option value="2" {{ old('prioridad') == '2' ? 'selected' : '' }}>Media</option>
+    <option value="3" {{ old('prioridad') == '3' ? 'selected' : '' }}>Baja</option>
+</flux:select>
+
 
             <!-- Botón -->
             <flux:button class="flex justify-end mt-3" type="submit" variant="primary">Crear Tarea</flux:button>
@@ -94,7 +96,7 @@
             });
 
             quill.on('text-change', function() {
-                document.querySelector('#descripcion').value = quill.root.innerHTML;
+                document.querySelector('#observaciones').value = quill.root.innerHTML;
             });
         </script>
     @endpush

@@ -26,8 +26,14 @@ class Tarea extends Model
 
     public function getPrioridadNombreAttribute()
 {
-    return $this->prioridad == 1 ? 'Alta' : 'Baja';
+    return match ($this->prioridad) {
+        1 => 'Alta',
+        2 => 'Media',
+        3 => 'Baja',
+        default => 'Desconocida',
+    };
 }
+
 
     protected $casts = [
     'fecha' => 'date',            // convierte a instancia Carbon solo con la parte fecha

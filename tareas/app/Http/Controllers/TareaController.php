@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tarea;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TareaController extends Controller
 {
@@ -37,7 +38,7 @@ class TareaController extends Controller
             'cat_id' => 'required|exists:tblcategoria,id',
             'fecha' => 'required|date',
             'hora' => 'required',
-            'prioridad' => 'required|in:1,2',
+            'prioridad' => 'required|in:1,2,3',
             'lugar' => 'nullable|string|max:255',
             'descripcion' => 'nullable|string',
             'imagen' => 'nullable|image|max:2048',
@@ -94,7 +95,11 @@ class TareaController extends Controller
      */
     public function edit(Tarea $tarea)
     {
-        //
+        // Obtener todas las categorías disponibles
+        $categorias = Categoria::all();
+
+        // Retornar la vista de edición con la tarea y las categorías
+        return view('tareas.edit', compact('tarea', 'categorias'));
     }
 
     /**
@@ -102,7 +107,59 @@ class TareaController extends Controller
      */
     public function update(Request $request, Tarea $tarea)
     {
-        //
+        $datos = $request->validate([
+            'titulo' => 'required|string|min:1|max:191',
+            'cat_id' => 'required|exists:tblcategoria,id',
+            'fecha' => 'required|date',
+            'hora' => 'required',
+            'prioridad' => 'required|in:1,2,3',
+            'lugar' => 'nullable|string|max:255',
+            'descripcion' => 'nullable|string',
+            'imagen' => 'nullable|image|max:2048',
+        ], [
+            'titulo.required' => 'El título es obligatorio.',
+            'titulo.string' => 'El título debe ser una cadena de texto.',
+            'titulo.min' => 'El título debe tener al menos 1 carácter.',
+            'titulo.max' => 'El título no puede tener más de 191 caracteres.',
+
+            'cat_id.required' => 'La categoría es obligatoria.',
+            'cat_id.exists' => 'La categoría seleccionada no existe.',
+
+            'fecha.required' => 'La fecha es obligatoria.',
+            'fecha.date' => 'La fecha no tiene un formato válido.',
+
+            'hora.required' => 'La hora es obligatoria.',
+
+            'prioridad.required' => 'La prioridad es obligatoria.',
+    
+            'lugar.string' => 'El lugar debe ser una cadena de texto.',
+            'lugar.max' => 'El lugar no puede tener más de 255 caracteres.',
+
+            'descripcion.string' => 'La descripción debe ser una cadena de texto.',
+
+            'imagen.image' => 'El archivo debe ser una imagen válida.',
+            'imagen.max' => 'La imagen no puede superar los 2MB.',
+        ]);
+        // Manejo de imagen
+        if ($request->hasFile('imagen')) {
+            if ($tarea->imagen) {
+                Storage::delete($tarea->imagen);
+            }
+            $datos['imagen'] = $request->file('imagen')->store('tareas');
+        }
+
+        // Actualizar tarea
+        $tarea->update($datos);
+
+        // Mensaje
+        session()->flash('swa1', [
+            'icon' => 'success',
+            'tittle' => '¡Tarea actualizada!',
+            'text' => 'La tarea "' . $tarea->titulo . '" se actualizó correctamente.'
+        ]);
+
+        // Redirección al listado
+        return redirect()->route('tareas.edit', $tarea);
     }
 
     /**
@@ -110,6 +167,15 @@ class TareaController extends Controller
      */
     public function destroy(Tarea $tarea)
     {
-        //
+        //Elimnar cEntrada
+        $tarea->delete();
+
+        session()->flash('swa1', [
+            'icon' => 'success',
+            'tittle' => 'Bien hecho!',
+            'text' => 'Tarea: ' . $tarea->titulo . ' eliminada correctamente'
+        ]);
+
+        return redirect()->route('tareas.index');
     }
 }
