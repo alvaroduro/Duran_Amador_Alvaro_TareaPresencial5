@@ -55,18 +55,26 @@
             @endif
         </h2>
     @endif --}}
-    <!-- Botones de navegación para filtrar por estado-->
-    {{-- <div class="mb-4 space-x-2">
-        <a href="{{ route('tareas.completadas') }}" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Tareas Completadas</a>
-        <a href="{{ route('tareas.pendientes') }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Tareas Pendientes</a>
-        <a href="{{ route('tareas.index') }}" class="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600">Todas las tareas</a>
-    </div>
+    <!--Formulario de busqueda entradas por titulo-->
+    <form action="" class="flex justify-center mt-10 mb-4">
+        <div class="flex w-full max-w-md bg-slate-800 rounded-xl overflow-hidden shadow-lg">
+            <input type="text"
+            class="flex-1 px-4 py-2 bg-slate-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            placeholder="Buscar Tareas" name="search" id="search" aria-label="Search"
+            value="{{ request('search') }}" />
 
-    <!--Exportar pdfs de todas las tareas-->
+            <button type="button" id="btn-buscar"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 text-sm font-semibold transition-all">
+                Buscar
+            </button>
+        </div>
+    </form>
+
+     <!--Exportar pdfs de todas las tareas-->
     <a target="_blanc" href="{{ route('tareas.exportarPdf') }}" 
    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm mb-4 inline-block">
     Descargar PDF completo
-</a> --}}
+    </a> 
 
 
     <!--TABLA DE ENTRADAS-->
@@ -229,7 +237,7 @@
                 });
             });
         </script>
-        {{-- <script src="{{ asset('vendor/jquery-ui/jquery-ui-1.14.1/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('vendor/jquery-ui/jquery-ui-1.14.1/jquery-ui.min.js') }}"></script>
         <!--Busqueda entradas autocompletado-->
         <script>
             // Cuando se carga la página, se activa el autocompletado en el input con id "search"
@@ -238,7 +246,7 @@
                 source: function(request, response) {
                     // Se hace una petición AJAX al servidor para buscar coincidencias
                     $.ajax({
-                        url: "{{ route('admin.entradas.buscar') }}", // Ruta que devuelve los datos (en formato JSON)
+                        url: "{{ route('tareas.buscar') }}", // Ruta que devuelve los datos (en formato JSON)
                         data: {
                             term: request.term // Se envía lo que el usuario está escribiendo en el input
                         },
@@ -253,7 +261,7 @@
                 // select se ejecuta cuando el usuario selecciona una opción de la lista
                 select: function(event, ui) {
                     // Redirige a la página de resultados, agregando el valor seleccionado en la URL como parámetro de búsqueda
-                    window.location.href = "{{ route('admin.entradas.index') }}" + "?search=" + ui.item.value;
+                    window.location.href = "{{ route('tareas.index') }}" + "?search=" + ui.item.value;
                 }
             });
         
@@ -262,9 +270,10 @@
                 // Se obtiene el valor escrito en el input de búsqueda
                 const valor = $('#search').val();
                 // Se redirige a la página de resultados con el parámetro search en la URL
-                window.location.href = "{{ route('admin.entradas.index') }}" + "?search=" + valor;
+                window.location.href = "{{ route('tareas.index') }}" + "?search=" + valor;
             });
-        </script> --}}
+        </script>
+       
     @endpush
 
 </x-layouts.app>

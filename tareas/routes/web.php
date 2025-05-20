@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SearchController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Illuminate\Database\QueryException;
@@ -34,6 +35,12 @@ Route::get('/test-db', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('tareas.buscar', [SearchController::class, 'buscarTareas'])->name('tareas.buscar');
+     Route::get('tareas/exportar-pdf', [TareaController::class, 'exportarPdf'])->name('tareas.exportarPdf');
+    Route::get('tareas/completadas', [TareaController::class, 'tareasCompletadas'])->name('tareas.completadas');
+    Route::get('tareas/pendientes', [TareaController::class, 'tareasPendientes'])->name('tareas.pendientes');
+
+    Route::get('tareas/filtrar-por-fecha', [TareaController::class, 'filtrarPorFecha'])->name('tareas.filtrarPorFecha');
     Route::resource('categorias', CategoriaController::class);
     Route::resource('tareas', TareaController::class);
 });

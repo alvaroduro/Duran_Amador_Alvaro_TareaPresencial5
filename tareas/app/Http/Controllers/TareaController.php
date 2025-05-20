@@ -6,6 +6,7 @@ use App\Models\Tarea;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TareaController extends Controller
 {
@@ -178,4 +179,13 @@ class TareaController extends Controller
 
         return redirect()->route('tareas.index');
     }
+
+    public function exportarPdf()
+{
+    $tareas = Tarea::with('categoria')->orderBy('fecha', 'desc')->orderBy('hora', 'asc')->get();
+
+    $pdf = Pdf::loadView('tareas.pdf', compact('tareas'));
+
+    return $pdf->stream('tareas.pdf'); // Puedes usar download('tareas.pdf') para forzar descarga
+}
 }

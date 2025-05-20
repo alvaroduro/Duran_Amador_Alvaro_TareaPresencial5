@@ -36,7 +36,7 @@
                 <td>{{ $tarea->categoria->nombre ?? 'Sin categoría' }}</td>
                 <td>{{ \Carbon\Carbon::parse($tarea->fecha)->format('d/m/Y') }}</td>
                 <td>{{ \Carbon\Carbon::parse($tarea->hora)->format('H:i') }}</td>
-                <td>{{ ucfirst($tarea->prioridad) }}</td>
+                <td>{{ $tarea->prioridad_nombre }}</td>
                 <td>{{ $tarea->lugar }}</td>
                 <td>{!! $tarea->descripcion !!}</td>
                 <td>
