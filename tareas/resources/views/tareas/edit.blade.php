@@ -43,9 +43,9 @@
 
             <!-- Descripción (con Quill) -->
             <div>
-                <p class="font-medium text-sm mb-1">Observaciones</p>
-                <div id="editor">{!! old('observaciones', $tarea->observaciones) !!}</div>
-                <textarea class="hidden" name="observaciones" id="observaciones"></textarea>
+                <p class="font-medium text-sm mb-1">Descripcion</p>
+                <div id="editor">{!! old('descripcion', $tarea->descripcion) !!}</div>
+                <textarea class="hidden" name="descripcion" id="descripcion"></textarea>
             </div>
 
             <!-- Imagen (sin uso aún) -->
@@ -66,7 +66,7 @@
     <script>
         const quill = new Quill('#editor', { theme: 'snow' });
         quill.on('text-change', function () {
-            document.querySelector('#observaciones').value = quill.root.innerHTML;
+            document.querySelector('#descripcion').value = quill.root.innerHTML;
         });
     </script>
     <script>

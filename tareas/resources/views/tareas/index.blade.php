@@ -90,10 +90,10 @@
                         IMAGEN
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        DESCRIPCION
+                        OBSERVACIONES
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        PRIORIDAD
+                        DESCRIPCION
                     </th>
                     <th scope="col" class="px-6 py-3">
                         LUGAR

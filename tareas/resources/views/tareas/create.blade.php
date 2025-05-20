@@ -44,8 +44,8 @@
             <!-- Descripción (Quill) -->
             <div>
                 <p class="font-medium text-sm mb-1">Descripción</p>
-                <div id="editor">{!! old('observaciones') !!}</div>
-                <textarea class="hidden" name="observaciones" id="observaciones"></textarea>
+                <div id="editor">{!! old('descripcion') !!}</div>
+                <textarea class="hidden" name="descripcion" id="descripcion"></textarea>
             </div>
 
             <!-- Lugar -->
@@ -96,7 +96,7 @@
             });
 
             quill.on('text-change', function() {
-                document.querySelector('#observaciones').value = quill.root.innerHTML;
+                document.querySelector('#descripcion').value = quill.root.innerHTML;
             });
         </script>
     @endpush
